@@ -44,3 +44,59 @@ class OnlineSalesRegisterCollector:
         else:
             self.__name_items.remove(name)
             self.__number_items -= 1
+
+    #4. Посчитай общую стоимость товаров
+    def check_amount(self):
+        total = []
+        for i in self.__name_items:
+            total.append(self.__item_price[i])
+        amount = sum(total)
+        if self.__number_items > 10:
+            amount = amount * 0.9
+        return amount
+    
+    #5. Вычисли НДС для товаров со ставкой 20%
+    def twenty_percent_tax_calculation(self):
+        twenty_percent_tax = []
+        total = []
+        for i in self.__name_items:
+            if self.__tax_rate[i] == 20:
+                twenty_percent_tax.append(i)
+                total.append(self.__item_price[i])
+
+        total_amount = sum(total)
+        if self.__number_items > 10:
+            total_amount *= 0.9
+
+        check_amount = total_amount * 0.2
+        return check_amount
+    
+    #6. Вычисли НДС для товаров со ставкой 10%
+    def ten_percent_tax_calculation(self):
+        ten_percent_tax = []
+        total = []
+        for i in self.__name_items:
+            if self.__tax_rate[i] == 10:
+                ten_percent_tax.append(i)
+                total.append(self.__item_price[i])
+
+        total_amount = sum(total)
+        if self.__number_items > 10:
+            total_amount *= 0.9
+
+        check_amount = total_amount * 0.1
+        return check_amount
+    
+    #7. Посчитай общую сумму налогов
+    def total_tax(self):
+        return self.ten_percent_tax_calculation() + self.twenty_percent_tax_calculation()
+    
+    #8. Верни номер телефона покупателя
+    @staticmethod
+    def get_telephone_number(telephone_number):
+        if not isinstance(telephone_number, int):
+            raise ValueError('Необходимо ввести цифры')
+        if len(telephone_number) > 10:
+            raise ValueError('Необходимо ввести 10 цифр после "+7"')
+        return f'+7{telephone_number}'
+
